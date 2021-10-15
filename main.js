@@ -32,7 +32,7 @@ function createPlayer(player, obj) {
     $player1.appendChild($character)
     const $life = document.createElement('div')
     $life.classList.add('life')
-    $life.style.width = obj.hp
+    $life.style.width = obj.hp + '%'
     const $name = document.createElement('div')
     $name.classList.add('name')
     $name.innerText = obj.name
