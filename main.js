@@ -5,7 +5,7 @@ const $randomButton = document.querySelector('.button')
 const player1 = {
     player: 1,
     name: 'Scorpion',
-    hp: 90,
+    hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
     weapon: ['knife', 'gun'],
     attack: function() {
@@ -31,7 +31,7 @@ function createElement(tag, className) {
     }
 
     $tag.classList.add(className)
-
+    
     return $tag
 }
 
@@ -53,26 +53,44 @@ function createPlayer(playerObj) {
     $progressbar.appendChild($life)
     $progressbar.appendChild($name)
     $character.appendChild($img)
+
     return $player
 }
 
 function changeHP(player) {
     const $playerLife = document.querySelector('.player'+player.player+' .life')
-    player.hp -= 20
-    $playerLife.style.width = player.hp + '%'
+    player.hp -= Math.ceil(Math.random() * 20)
+    
 
-    if (player.hp <= 0 ) {
-        $arenas.appendChild(playerLose(player.name))
-        player.hp = 0
-        $randomButton.remove()
+    if (player1.hp <= 0) {
+        $arenas.appendChild(playerWins(player2.name))   
+        $randomButton.disabled = true
+        player1.hp = 0 
+    } else if (player2.hp <= 0) {
+        $arenas.appendChild(playerWins(player1.name))   
+        $randomButton.disabled = true
+        player2.hp = 0 
+    } else if (player1.hp && player2.hp == 0) {
+        $arenas.appendChild(noWins()) 
     }
-    console.log(player.hp)
+
+    
+    
+    
+     $playerLife.style.width = player.hp + '%'
+    console.log('у игрока '+player.name+' осталось '+player.hp+' HP')
 }
 
-function playerLose(name) {
-    const $loseTitle = createElement('div', 'loseTitle')
-    $loseTitle.innerText = name + ' lose'
-    return $loseTitle
+function playerWins(name) {
+    const $winsTitle = createElement('div', 'winsTitle')
+    $winsTitle.innerText = name + ' wins'
+    return $winsTitle
+}
+
+function noWins(name) {
+    const $noWinsTitle = createElement('div', 'winsTitle')
+    $noWinsTitle.innerText = 'no wins'
+    return $noWinsTitle
 }
 
 $randomButton.addEventListener('click', function() {
